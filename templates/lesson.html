@@ -1,0 +1,327 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+
+<div class="container mt-5 mb-5 alpha-wrapper">
+    <div class="row text-center mb-4">
+        <div class="col-12">
+            <h1 class="alpha-title">{{ lesson.get('Tab', 'Lesson Topic') }}</h1>
+            <div class="mt-3 mb-4">
+                <span class="alpha-badge">{{ lesson.get('Domain', '') }} > {{ lesson.get('Tabcat', '') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center mb-5">
+            {% set pics_data = lesson.get('Pics') or lesson.get('pics') or lesson.get('Pics ') or '' %}
+            {% if pics_data and pics_data|trim != "" %}
+
+            {% set fixed_pics = pics_data.replace('\n', ',').replace('https://', ',https://').replace('http://',
+            ',http://') %}
+            {% set image_links = fixed_pics.split(',') %}
+
+            <div class="d-flex flex-wrap justify-content-center gap-4">
+                {% for img in image_links %}
+                {% set clean_img = img|trim %}
+                {% if clean_img != "" and clean_img.startswith('http') %}
+                <img src="{{ clean_img }}" class="img-fluid alpha-image" alt="Lesson Image"
+                    style="max-height: 350px; object-fit: contain;">
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-12 mb-5">
+            <div class="card alpha-card">
+                <div class="card-header alpha-card-header">
+                    <h2>📖 Practical & Theory</h2>
+                </div>
+                <div class="card-body p-4 p-md-5 text-start alpha-content" id="practical-content">
+                    {{ lesson.get('Practical Content', 'No content available.') | safe }}
+                </div>
+            </div>
+        </div>
+
+        {% set sim_link = lesson.get('Links', '') %}
+        {% if sim_link and sim_link|trim != "" %}
+        <div class="col-md-12 mb-5 text-center">
+            <h3 class="mb-4 alpha-sim-title">⚙️ Interactive Simulation ⚙️</h3>
+
+            <div class="alpha-sim-box">
+                {% if '<iframe' in sim_link %} <div class="ratio ratio-16x9">
+                    {{ sim_link | safe }}
+            </div>
+            {% elif 'tinkercad.com/embed' in sim_link %}
+            <div class="ratio ratio-16x9">
+                <iframe src="{{ sim_link|trim }}" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"
+                    allowfullscreen></iframe>
+            </div>
+            {% elif 'tinkercad.com/things' in sim_link %}
+            {% set smart_link = sim_link.replace('/things/', '/embed/') %}
+            <div class="ratio ratio-16x9">
+                <iframe src="{{ smart_link|trim }}" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"
+                    allowfullscreen></iframe>
+            </div>
+            {% else %}
+            <a href="{{ sim_link|trim }}" target="_blank" class="alpha-btn">
+                🔗 Open Simulation Link
+            </a>
+            {% endif %}
+        </div>
+        <p class="alpha-hint">🖱️ Interact with the simulation window above.</p>
+    </div>
+    {% endif %}
+
+    {% set yt_link = lesson.get('Youtube') or lesson.get('youtube') or lesson.get('YouTube') or '' %}
+    {% if yt_link and yt_link|trim != "" %}
+    <div class="col-md-12 mb-5 text-center">
+        <h3 class="mb-4 alpha-sim-title">📺 Video Lecture 📺</h3>
+
+        {% set clean_yt_link = yt_link|trim %}
+        {% if 'watch?v=' in clean_yt_link %}
+        {% set clean_yt_link = clean_yt_link.replace('watch?v=', 'embed/') %}
+        {% elif 'youtu.be/' in clean_yt_link %}
+        {% set clean_yt_link = clean_yt_link.replace('youtu.be/', 'youtube.com/embed/') %}
+        {% endif %}
+
+        <div class="alpha-sim-box" style="box-shadow: 12px 12px 0px #FF3366;">
+            <div class="ratio ratio-16x9">
+                <iframe src="{{ clean_yt_link }}" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+        <p class="alpha-hint" style="box-shadow: 4px 4px 0px #7000FF;">▶️ Watch the lesson tutorial.</p>
+    </div>
+    {% endif %}
+
+    {% set ref_text = lesson.get('References') or lesson.get('references') or lesson.get('Reference') or
+    lesson.get('References ') or '' %}
+    {% if ref_text and ref_text|trim != "" %}
+    <div class="col-md-12 mb-5 text-center">
+        <h3 class="mb-4 alpha-sim-title">📚 Reference Notes 📚</h3>
+        <div class="card alpha-card" style="box-shadow: 10px 10px 0px #00FFCC !important;">
+            <div class="card-body p-4 p-md-5 text-center alpha-content">
+
+                {% set fixed_text = ref_text.replace('\n', ',').replace('https://', ',https://').replace('http://',
+                ',http://') %}
+                {% set ref_items = fixed_text.split(',') %}
+
+                <div class="d-flex flex-column gap-3 align-items-center">
+                    {% for item in ref_items %}
+                    {% set clean_item = item|trim %}
+                    {% if clean_item != "" %}
+                    {% if clean_item.startswith('http') %}
+                    <a href="{{ clean_item }}" target="_blank" class="alpha-btn"
+                        style="background-color: #7000FF; color: #fff !important; font-size: 1rem; padding: 10px 20px; width: 100%; white-space: normal; word-break: break-all; text-align: left;">
+                        🔗 {{ clean_item }}
+                    </a>
+                    {% else %}
+                    <p class="mb-0 text-start w-100" style="font-weight: 500;">{{ clean_item|safe }}</p>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<div class="row mt-2">
+    <div class="col-12 text-center">
+        <a href="{{ url_for('view_subtopic', domain_name=lesson.get('Domain', ''), tabcat_name=lesson.get('Tabcat', '')) }}"
+            class="alpha-btn back-btn">
+            🔙 Back to Lessons
+        </a>
+    </div>
+</div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let contentDiv = document.getElementById("practical-content");
+        if (contentDiv) {
+            let html = contentDiv.innerHTML;
+            let formattedHtml = html.replace(/(\d+)\.\s*/g, '<br><br><span class="step-number">$1</span> ');
+
+            if (formattedHtml.trim().startsWith('<br><br>')) {
+                formattedHtml = formattedHtml.replace('<br><br>', '');
+            }
+
+            contentDiv.innerHTML = formattedHtml;
+        }
+    });
+</script>
+
+<style>
+    /* Main Layout & Background */
+    .alpha-wrapper {
+        font-family: 'Outfit', sans-serif;
+        background-color: #E2E8F0;
+        background-image: radial-gradient(#94A3B8 2px, transparent 2px);
+        background-size: 30px 30px;
+        padding: 40px 20px;
+        border-radius: 30px;
+        border: 5px solid #000;
+        box-shadow: 12px 12px 0px #000;
+    }
+
+    /* Titles and Badges */
+    .alpha-title {
+        font-weight: 900;
+        color: #fff;
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        -webkit-text-stroke: 2px #000;
+        text-shadow: 6px 6px 0px #FF3366;
+        letter-spacing: 2px;
+    }
+
+    .alpha-badge {
+        background-color: #00FFCC !important;
+        color: #000 !important;
+        font-weight: 900;
+        font-size: 1.2rem;
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0px #000;
+        border-radius: 50px;
+        padding: 8px 20px;
+        text-transform: uppercase;
+        display: inline-block;
+    }
+
+    /* Images */
+    .alpha-image {
+        border: 5px solid #000;
+        border-radius: 20px;
+        box-shadow: 10px 10px 0px #7000FF;
+        background-color: #fff;
+        padding: 10px;
+        transition: transform 0.2s ease;
+    }
+
+    .alpha-image:hover {
+        transform: scale(1.02);
+    }
+
+    /* The Content Card */
+    .alpha-card {
+        background-color: #fff;
+        border: 5px solid #000 !important;
+        border-radius: 20px !important;
+        box-shadow: 10px 10px 0px #FF9900 !important;
+        overflow: hidden;
+    }
+
+    .alpha-card-header {
+        background-color: #FFD700;
+        border-bottom: 5px solid #000;
+        padding: 15px 20px;
+    }
+
+    .alpha-card-header h2 {
+        margin: 0;
+        font-weight: 900;
+        color: #000;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+    }
+
+    .alpha-content {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1E293B;
+        line-height: 1.6;
+    }
+
+    /* Step Badge CSS */
+    .step-number {
+        background-color: #FF3366;
+        color: #fff;
+        border: 3px solid #000;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        font-weight: 900;
+        font-size: 1.2rem;
+        margin-right: 8px;
+        box-shadow: 3px 3px 0px #000;
+    }
+
+    /* Simulation & Video Area */
+    .alpha-sim-title {
+        font-weight: 900;
+        font-size: 2.5rem;
+        color: #000;
+        text-transform: uppercase;
+        text-shadow: 3px 3px 0px #00FFCC;
+    }
+
+    .alpha-sim-box {
+        border: 6px solid #000;
+        border-radius: 20px;
+        box-shadow: 12px 12px 0px #7000FF;
+        background-color: #fff;
+        padding: 15px;
+    }
+
+    .alpha-sim-box iframe {
+        border: 4px solid #000;
+        border-radius: 12px;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .alpha-hint {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.1rem;
+        padding: 10px 20px;
+        border-radius: 50px;
+        margin-top: 20px;
+        box-shadow: 4px 4px 0px #FF3366;
+    }
+
+    /* Buttons */
+    .alpha-btn {
+        background-color: #00FFCC;
+        color: #000 !important;
+        font-weight: 900;
+        font-size: 1.4rem;
+        border: 4px solid #000;
+        border-radius: 15px;
+        padding: 12px 30px;
+        box-shadow: 6px 6px 0px #000;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.1s ease;
+    }
+
+    .alpha-btn:hover {
+        transform: translate(-4px, -4px);
+        box-shadow: 10px 10px 0px #000;
+    }
+
+    .alpha-btn:active {
+        transform: translate(4px, 4px);
+        box-shadow: 0px 0px 0px #000;
+    }
+
+    .back-btn {
+        background-color: #FF3366;
+        color: #fff !important;
+    }
+</style>
+{% endblock %}

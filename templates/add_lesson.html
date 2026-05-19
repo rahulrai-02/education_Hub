@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    /* Form Card Container */
+    .alpha-form-card {
+        background-color: #fff;
+        border: 5px solid #000;
+        border-radius: 25px;
+        box-shadow: 12px 12px 0px #7000FF;
+        overflow: hidden;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+
+    /* Form Header */
+    .alpha-form-header {
+        background-color: #00FFCC;
+        border-bottom: 5px solid #000;
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    .alpha-form-title {
+        font-weight: 900;
+        color: #000;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        text-shadow: 3px 3px 0px #fff;
+        letter-spacing: 1px;
+    }
+
+    .alpha-form-subtitle {
+        font-weight: 700;
+        color: #1E293B;
+        font-size: 1.1rem;
+    }
+
+    /* Form Labels & Inputs */
+    .alpha-label {
+        font-weight: 900;
+        font-size: 1.1rem;
+        color: #000;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .alpha-input {
+        border: 3px solid #000;
+        border-radius: 12px;
+        padding: 12px 15px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #1E293B;
+        box-shadow: 5px 5px 0px #E2E8F0;
+        transition: all 0.2s ease;
+        background-color: #f8f9fa;
+    }
+
+    .alpha-input:focus {
+        outline: none;
+        background-color: #fff;
+        border-color: #000;
+        box-shadow: 5px 5px 0px #FF3366;
+        transform: translateY(-2px);
+    }
+
+    .alpha-input::placeholder {
+        color: #94A3B8;
+        font-weight: 500;
+    }
+
+    /* Special Upload Box */
+    .alpha-upload-box {
+        background-color: #FFFBEB;
+        border: 4px dashed #000;
+        border-radius: 15px;
+        padding: 25px;
+        transition: all 0.2s ease;
+    }
+
+    .alpha-upload-box:hover {
+        background-color: #FFEA00;
+        border-style: solid;
+    }
+
+    /* Action Buttons */
+    .alpha-btn-submit {
+        background-color: #FFD700;
+        color: #000 !important;
+        font-weight: 900;
+        font-size: 1.4rem;
+        border: 4px solid #000;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 6px 6px 0px #000;
+        text-transform: uppercase;
+        transition: all 0.1s ease;
+        width: 100%;
+    }
+
+    .alpha-btn-submit:hover {
+        background-color: #FFEA00;
+        transform: translate(-3px, -3px);
+        box-shadow: 9px 9px 0px #000;
+    }
+
+    .alpha-btn-submit:active {
+        transform: translate(3px, 3px);
+        box-shadow: 0px 0px 0px #000;
+    }
+
+    .alpha-btn-cancel {
+        background-color: #fff;
+        color: #FF3366 !important;
+        font-weight: 900;
+        font-size: 1.2rem;
+        border: 4px solid #000;
+        border-radius: 15px;
+        padding: 12px;
+        box-shadow: 4px 4px 0px #000;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.1s ease;
+        text-align: center;
+        display: block;
+        width: 100%;
+    }
+
+    .alpha-btn-cancel:hover {
+        background-color: #FF3366;
+        color: #fff !important;
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px #000;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+            <div class="alpha-form-card">
+                <div class="alpha-form-header">
+                    <h3 class="alpha-form-title">📝 Add New Lesson</h3>
+                    <div class="alpha-form-subtitle">Securely publish new content to your curriculum.</div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" action="{{ url_for('add_lesson') }}" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="domain" class="form-label alpha-label">Domain (Main Topic) <span
+                                        class="text-danger fs-4">*</span></label>
+
+                                <input list="domain-list" class="form-control alpha-input" id="domain" name="domain"
+                                    placeholder="Select or type Domain..." required>
+
+                                <datalist id="domain-list">
+                                    {% if existing_domains %}
+                                    {% for d in existing_domains %}
+                                    <option value="{{ d }}">
+                                        {% endfor %}
+                                        {% endif %}
+                                </datalist>
+                                <small class="form-text mt-1 d-block" style="font-weight: 600; color: #64748B;">Click to
+                                    select existing, or type a new one.</small>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label for="tabcat" class="form-label alpha-label">Tabcat (Subtopic) <span
+                                        class="text-danger fs-4">*</span></label>
+
+                                <input list="tabcat-list" class="form-control alpha-input" id="tabcat" name="tabcat"
+                                    placeholder="Select or type Subtopic..." required>
+
+                                <datalist id="tabcat-list">
+                                    {% if existing_tabcats %}
+                                    {% for t in existing_tabcats %}
+                                    <option value="{{ t }}">
+                                        {% endfor %}
+                                        {% endif %}
+                                </datalist>
+                                <small class="form-text mt-1 d-block" style="font-weight: 600; color: #64748B;">Click to
+                                    select existing, or type a new one.</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="tab" class="form-label alpha-label">Lesson Name (Tab) <span
+                                    class="text-danger fs-4">*</span></label>
+                            <input type="text" class="form-control alpha-input" id="tab" name="tab"
+                                placeholder="e.g., What is a Resistor?" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="content" class="form-label alpha-label">Practical Content (Theory) <span
+                                    class="text-danger fs-4">*</span></label>
+                            <textarea class="form-control alpha-input" id="content" name="content" rows="6"
+                                placeholder="Write your lesson content here. You can use HTML tags like <b>bold</b> or <br> for new lines."
+                                required></textarea>
+                        </div>
+
+                        <div class="mb-4 alpha-upload-box">
+                            <label for="image" class="form-label alpha-label" style="color: #7000FF;">📸 Upload Lesson
+                                Image (Optional)</label>
+                            <input type="file" class="form-control alpha-input" id="image" name="image" accept="image/*"
+                                style="background-color: #fff;">
+                            <small class="form-text mt-2 d-block" style="font-weight: 700; color: #1E293B;">
+                                <strong>Note:</strong> Photo aapke apne local server par safe rahegi.
+                            </small>
+                        </div>
+
+                        <div class="mb-5">
+                            <label for="links" class="form-label alpha-label">🔗 External Link (Optional)</label>
+                            <input type="url" class="form-control alpha-input" id="links" name="links"
+                                placeholder="https://www.tinkercad.com/...">
+                            <small class="form-text mt-2 d-block" style="font-weight: 700; color: #64748B;">Paste a
+                                Tinkercad, YouTube, or reference material link here.</small>
+                        </div>
+
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn alpha-btn-submit">
+                                Publish Lesson
+                            </button>
+                            <a href="{{ url_for('admin') }}" class="alpha-btn-cancel">
+                                Cancel
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

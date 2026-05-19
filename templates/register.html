@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    /* Registration Card Container */
+    .alpha-register-card {
+        background-color: #fff;
+        border: 5px solid #000;
+        border-radius: 25px;
+        box-shadow: 12px 12px 0px #7000FF;
+        /* Electric Purple Shadow */
+        padding: 40px 30px;
+        margin-top: 20px;
+        margin-bottom: 50px;
+    }
+
+    /* Titles */
+    .alpha-register-title {
+        font-weight: 900;
+        color: #000;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 10px;
+        text-shadow: 4px 4px 0px #00FFCC;
+        /* Cyan Shadow */
+        letter-spacing: 1px;
+    }
+
+    .alpha-register-subtitle {
+        text-align: center;
+        font-weight: 700;
+        color: #1E293B;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    /* Form Section Headers */
+    .form-section-title {
+        background-color: #FFD700;
+        display: inline-block;
+        padding: 8px 20px;
+        border: 3px solid #000;
+        border-radius: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        margin-top: 25px;
+        margin-bottom: 20px;
+        box-shadow: 4px 4px 0px #000;
+    }
+
+    /* Form Labels & Inputs */
+    .alpha-label {
+        font-weight: 900;
+        font-size: 1rem;
+        color: #000;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .alpha-input,
+    .alpha-select {
+        border: 3px solid #000;
+        border-radius: 12px;
+        padding: 12px 15px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #1E293B;
+        box-shadow: 4px 4px 0px #E2E8F0;
+        transition: all 0.2s ease;
+        background-color: #f8f9fa;
+        width: 100%;
+    }
+
+    .alpha-input:focus,
+    .alpha-select:focus {
+        outline: none;
+        background-color: #fff;
+        border-color: #000;
+        box-shadow: 5px 5px 0px #FF3366;
+        /* Hot Pink focus shadow */
+        transform: translateY(-2px);
+    }
+
+    .alpha-input::placeholder {
+        color: #94A3B8;
+        font-weight: 500;
+    }
+
+    /* Secret Invite Field Special Styling */
+    .secret-input {
+        background-color: #1E293B !important;
+        color: #00FFCC !important;
+        border-color: #000;
+        box-shadow: 4px 4px 0px #FF3366;
+    }
+
+    .secret-input::placeholder {
+        color: #64748B !important;
+    }
+
+    /* Register Button */
+    .alpha-btn-register {
+        background-color: #00FFCC;
+        /* Neon Cyan */
+        color: #000 !important;
+        font-weight: 900;
+        font-size: 1.4rem;
+        border: 4px solid #000;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 6px 6px 0px #000;
+        text-transform: uppercase;
+        transition: all 0.1s ease;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .alpha-btn-register:hover {
+        background-color: #00E6B8;
+        transform: translate(-3px, -3px);
+        box-shadow: 9px 9px 0px #000;
+    }
+
+    .alpha-btn-register:active {
+        transform: translate(3px, 3px);
+        box-shadow: 0px 0px 0px #000;
+    }
+
+    /* Footer Text */
+    .alpha-footer-text {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #1E293B;
+        margin-top: 25px;
+    }
+
+    .alpha-link {
+        color: #FF3366;
+        /* Hot Pink */
+        font-weight: 900;
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        transition: color 0.2s ease;
+    }
+
+    .alpha-link:hover {
+        color: #7000FF;
+        /* Electric Purple */
+        text-decoration-color: #000;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-md-11">
+
+            <div class="alpha-register-card">
+                <h2 class="alpha-register-title">Join LearnHub</h2>
+                <p class="alpha-register-subtitle">Create your student account to start learning today!</p>
+
+                <form method="POST" action="{{ url_for('register') }}">
+
+                    <div class="form-section-title">👤 Personal Info</div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fullname" class="form-label alpha-label">Full Name</label>
+                            <input type="text" class="form-control alpha-input" id="fullname" name="fullname"
+                                placeholder="Enter your full name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="username" class="form-label alpha-label">Username</label>
+                            <input type="text" class="form-control alpha-input" id="username" name="username"
+                                placeholder="Choose a cool username" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="gender" class="form-label alpha-label">Gender</label>
+                            <select class="form-select alpha-select" id="gender" name="gender" required>
+                                <option value="" disabled selected>Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="dob" class="form-label alpha-label">Date of Birth</label>
+                            <input type="date" class="form-control alpha-input" id="dob" name="dob" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="aadhar" class="form-label alpha-label">Aadhar No.</label>
+                            <input type="text" class="form-control alpha-input" id="aadhar" name="aadhar"
+                                pattern="\d{12}" title="Must be exactly 12 digits" placeholder="12-digit ID" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">🏫 Academic & Contact</div>
+                    <div class="mb-3">
+                        <label for="school" class="form-label alpha-label">School / Institute Name</label>
+                        <input type="text" class="form-control alpha-input" id="school" name="school"
+                            placeholder="Where do you study?" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="class_grade" class="form-label alpha-label">Current Class</label>
+                            <select class="form-select alpha-select" id="class_grade" name="class_grade" required>
+                                <option value="" disabled selected>Select Class</option>
+                                <option value="1">1st Standard</option>
+                                <option value="2">2nd Standard</option>
+                                <option value="3">3rd Standard</option>
+                                <option value="4">4th Standard</option>
+                                <option value="5">5th Standard</option>
+                                <option value="6">6th Standard</option>
+                                <option value="7">7th Standard</option>
+                                <option value="8">8th Standard</option>
+                                <option value="9">9th Standard</option>
+                                <option value="10">10th Standard</option>
+                                <option value="11">11th Standard</option>
+                                <option value="12">12th Standard</option>
+                                <option value="College/Other">College / Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="stream" class="form-label alpha-label">Stream / Subjects</label>
+                            <select class="form-select alpha-select" id="stream" name="stream" required>
+                                <option value="" disabled selected>Select Stream</option>
+                                <option value="General (Upto 10th)">General (Upto 10th)</option>
+                                <option value="Science (PCM)">Science (PCM)</option>
+                                <option value="Science (PCB)">Science (PCB)</option>
+                                <option value="Commerce">Commerce</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Humanities">Humanities</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label alpha-label">Email Address</label>
+                            <input type="email" class="form-control alpha-input" id="email" name="email"
+                                placeholder="name@example.com" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label alpha-label">Phone Number</label>
+                            <input type="tel" class="form-control alpha-input" id="phone" name="phone"
+                                placeholder="Your mobile number" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">📍 Location</div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label alpha-label">Home Address</label>
+                        <input type="text" class="form-control alpha-input" id="address" name="address"
+                            placeholder="House no, Street, Landmark" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="state" class="form-label alpha-label">State</label>
+                            <input list="state-list" class="form-control alpha-input" id="state" name="state"
+                                placeholder="Search or select State..." required>
+                            <datalist id="state-list">
+                                <option value="Andhra Pradesh">
+                                <option value="Arunachal Pradesh">
+                                <option value="Assam">
+                                <option value="Bihar">
+                                <option value="Chhattisgarh">
+                                <option value="Delhi">
+                                <option value="Goa">
+                                <option value="Gujarat">
+                                <option value="Haryana">
+                                <option value="Himachal Pradesh">
+                                <option value="Jharkhand">
+                                <option value="Karnataka">
+                                <option value="Kerala">
+                                <option value="Madhya Pradesh">
+                                <option value="Maharashtra">
+                                <option value="Manipur">
+                                <option value="Meghalaya">
+                                <option value="Mizoram">
+                                <option value="Nagaland">
+                                <option value="Odisha">
+                                <option value="Punjab">
+                                <option value="Rajasthan">
+                                <option value="Sikkim">
+                                <option value="Tamil Nadu">
+                                <option value="Telangana">
+                                <option value="Tripura">
+                                <option value="Uttar Pradesh">
+                                <option value="Uttarakhand">
+                                <option value="West Bengal">
+                            </datalist>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="district" class="form-label alpha-label">District / City</label>
+                            <input list="district-list" class="form-control alpha-input" id="district" name="district"
+                                placeholder="Type your district..." required>
+                            <datalist id="district-list">
+                                <option value="Mumbai">
+                                <option value="Delhi">
+                                <option value="Bangalore">
+                                <option value="Hyderabad">
+                                <option value="Ahmedabad">
+                                <option value="Chennai">
+                                <option value="Kolkata">
+                                <option value="Pune">
+                                <option value="Jaipur">
+                                <option value="Lucknow">
+                                <option value="Chandigarh">
+                                <option value="Ludhiana">
+                                <option value="Jalandhar">
+                                <option value="Amritsar">
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">🔒 Security</div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label for="password" class="form-label alpha-label">Create Password</label>
+                            <input type="password" class="form-control alpha-input" id="password" name="password"
+                                placeholder="Make it strong!" required>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label for="invite_code" class="form-label alpha-label" style="color: #7000FF;">Secret Code
+                                (Optional)</label>
+                            <input type="password" class="form-control alpha-input secret-input" id="invite_code"
+                                name="invite_code" placeholder="Got a secret code?">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn alpha-btn-register">🚀 Create Account</button>
+
+                </form>
+
+                <div class="text-center alpha-footer-text">
+                    <p>Already a member? <br>
+                        <a href="{{ url_for('login') }}" class="alpha-link">Login here</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

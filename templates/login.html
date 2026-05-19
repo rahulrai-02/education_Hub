@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    /* Login Card Container */
+    .alpha-login-card {
+        background-color: #fff;
+        border: 5px solid #000;
+        border-radius: 25px;
+        box-shadow: 12px 12px 0px #FF3366;
+        /* Hot Pink Shadow */
+        padding: 40px 30px;
+        margin-top: 40px;
+        margin-bottom: 50px;
+        transition: transform 0.2s ease;
+    }
+
+    .alpha-login-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 15px 15px 0px #FF3366;
+    }
+
+    /* Titles */
+    .alpha-login-title {
+        font-weight: 900;
+        color: #000;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 30px;
+        text-shadow: 4px 4px 0px #00FFCC;
+        /* Cyan Shadow */
+        letter-spacing: 1px;
+    }
+
+    /* Form Labels & Inputs */
+    .alpha-label {
+        font-weight: 900;
+        font-size: 1.1rem;
+        color: #000;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .alpha-input {
+        border: 3px solid #000;
+        border-radius: 12px;
+        padding: 12px 15px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #1E293B;
+        box-shadow: 4px 4px 0px #E2E8F0;
+        transition: all 0.2s ease;
+        background-color: #f8f9fa;
+    }
+
+    .alpha-input:focus {
+        outline: none;
+        background-color: #fff;
+        border-color: #000;
+        box-shadow: 5px 5px 0px #7000FF;
+        /* Electric Purple focus shadow */
+        transform: translateY(-2px);
+    }
+
+    .alpha-input::placeholder {
+        color: #94A3B8;
+        font-weight: 500;
+    }
+
+    /* Login Button */
+    .alpha-btn-login {
+        background-color: #00FFCC;
+        /* Neon Cyan */
+        color: #000 !important;
+        font-weight: 900;
+        font-size: 1.4rem;
+        border: 4px solid #000;
+        border-radius: 15px;
+        padding: 12px;
+        box-shadow: 6px 6px 0px #000;
+        text-transform: uppercase;
+        transition: all 0.1s ease;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .alpha-btn-login:hover {
+        background-color: #00E6B8;
+        transform: translate(-3px, -3px);
+        box-shadow: 9px 9px 0px #000;
+    }
+
+    .alpha-btn-login:active {
+        transform: translate(3px, 3px);
+        box-shadow: 0px 0px 0px #000;
+    }
+
+    /* Register Link Text */
+    .alpha-footer-text {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #1E293B;
+        margin-top: 25px;
+    }
+
+    .alpha-link {
+        color: #7000FF;
+        /* Electric Purple */
+        font-weight: 900;
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        transition: color 0.2s ease;
+    }
+
+    .alpha-link:hover {
+        color: #FF3366;
+        /* Hot Pink */
+        text-decoration-color: #000;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="alpha-login-card">
+                <h2 class="alpha-login-title">Login to LearnHub</h2>
+
+                <form method="POST" action="{{ url_for('login') }}">
+
+                    <div class="mb-4">
+                        <label for="email" class="form-label alpha-label">Email Address</label>
+                        <input type="email" class="form-control alpha-input" id="email" name="email"
+                            placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label alpha-label">Password</label>
+                        <input type="password" class="form-control alpha-input" id="password" name="password"
+                            placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="btn alpha-btn-login">Login</button>
+
+                </form>
+
+                <div class="text-center alpha-footer-text">
+                    <p>Don't have an account? <br>
+                        <a href="{{ url_for('register') }}" class="alpha-link">Register here</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
